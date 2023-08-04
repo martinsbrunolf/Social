@@ -2,8 +2,10 @@ import { db } from "../connect.js";
 import jwt from "jsonwebtoken";
 
 export const getUser = (req, res) => {
-  const userId = req.params.userId;
-  const q = "SELECT * FROM users WHERE id=?";
+  const authorization = req.headers['authorization']
+  const userId = jwtUtils.getUser(authorization); 
+
+  const q = `SELECT * FROM users WHERE id=${userId}`;
 
   db.query(q, [userId], (err, data) => {
     if (err) return res.status(500).json(err);
@@ -13,6 +15,7 @@ export const getUser = (req, res) => {
 };
 
 export const updateUser = (req, res) => {
+
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Pas authentifié!");
 

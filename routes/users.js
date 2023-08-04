@@ -6,7 +6,7 @@ import {
 
 const router = express.Router()
 
-router.get("/find/:userId", getUser)
+router.get("/find", getUser)
 router.put("/", updateUser)
 
 
